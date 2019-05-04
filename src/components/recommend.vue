@@ -1,0 +1,71 @@
+<style lang="scss" scoped>
+.recommend {
+  width: 100%;
+  position: relative;
+
+  .loadmore {
+    width: 100%;
+    height: 5rem;
+    color: #262a36;
+  }
+
+  .toTop {
+    width: 5rem;
+    height: 5rem;
+    background: #88a0c7;
+    color: #fff;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    border-radius: 100%;
+  }
+
+  .toTop:hover {
+    background: #262a36;
+  }
+
+  .toTop:active {
+    background: #88a0c7;
+  }
+}
+</style>
+
+<template>
+  <section class="recommend">
+    <songs-list></songs-list>
+    <div class="loadmore flex-center" @click="loadmore">
+      <p v-show="!showGif">加载更多</p>
+      <img src="../assets/img/loading.gif" v-show="showGif" />
+    </div>
+    <a href="#top" class="toTop flex-center">
+      Top
+    </a>
+  </section>
+</template>
+
+<script>
+import songsList from "../components/songs-list";
+
+export default {
+  components: {
+    songsList
+  },
+
+  data() {
+    return {
+      showGif: false
+    };
+  },
+
+  methods: {
+    loadmore() {
+      this.showGif = true;
+      let self = this;
+      setTimeout(() => {
+        self.$store.commit("setLength", self.$store.state.length + 10);
+        self.showGif = false;
+      }, 500);
+    }
+  }
+};
+</script>
