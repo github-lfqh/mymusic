@@ -49,9 +49,9 @@
   
   &-songWords {
     width: 100%;
+    height: 20rem;
     overflow: hidden;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin: auto 0;
     z-index: 3;
 
     ul {
@@ -288,8 +288,8 @@ export default {
       for (let li of lis)
         li.removeAttribute("class");
       lis[this.lineNo].className = "light";
-      if (this.lineNo > 6) {
-        this.$refs.ul.style.transform = "translateY(" + (this.lineNo - 6)  * -20 + "px)";
+      if (this.lineNo > 2) {
+        this.$refs.ul.style.transform = "translateY(" + (this.lineNo - 2)  * -20 + "px)";
       }
       this.lineNo++;
     },
