@@ -9,7 +9,7 @@
   <div class="home">
     <head-nav></head-nav>
     <recommend v-show="this.$store.state.index == 0"></recommend>
-    <rank v-show="this.$store.state.index == 1"></rank>
+    <hot v-show="this.$store.state.index == 1"></hot>
     <search v-show="this.$store.state.index == 2"></search>
   </div>
 </template>
@@ -17,14 +17,14 @@
 <script>
 import headNav from "../components/head-nav";
 import recommend from "../components/recommend";
-import rank from "../components/rank";
+import hot from "../components/hot";
 import search from "../components/search";
 
 export default {
   components: {
     headNav,
     recommend,
-    rank,
+    hot,
     search
   }
 };

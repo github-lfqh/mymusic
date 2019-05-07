@@ -3,6 +3,10 @@
   width: 100%;
   height: 10rem;
   background: #262a36;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
 
   header {
     width: 100%;
@@ -46,13 +50,13 @@
 
 <template>
   <div class="head-nav">
-    <header class="flex-center" id="top">
+    <header class="flex-center">
       <img src="../assets/img/logo.jpg" />
       <span>LFQ's music</span>
     </header>
     <nav>
       <span :class="{ active: this.$store.state.index == 0 }" @click="recommendClick">推荐</span>
-      <span :class="{ active: this.$store.state.index == 1 }" @click="rankClick">排行</span>
+      <span :class="{ active: this.$store.state.index == 1 }" @click="hotClick">热门</span>
       <span :class="{ active: this.$store.state.index == 2 }" @click="searchClick">搜索</span>
     </nav>
     <div class="light" :style="{ transform: 'translate(' + move + ')' }"></div>
@@ -81,7 +85,7 @@ export default {
       }
     },
 
-    rankClick() {
+    hotClick() {
       this.$store.commit("setIndex", 1);
       this.move = "250%";
       if (JSON.parse(localStorage.getItem("songs"))) {
@@ -102,6 +106,15 @@ export default {
 
     sortId(a, b) {
       return a.id - b.id;
+    }
+  },
+  created() {
+    if (this.$store.state.index == 0) {
+      this.recommendClick();
+    } else if (this.$store.state.index == 1) {
+      this.hotClick();
+    } else if (this.$store.state.index == 2) {
+      this.searchClick();
     }
   }
 };

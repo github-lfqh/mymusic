@@ -2,6 +2,7 @@
 .recommend {
   width: 100%;
   position: relative;
+  margin-top: 10rem;
 
   .loadmore {
     width: 100%;

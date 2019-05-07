@@ -1,6 +1,7 @@
 <style lang="scss" scoped>
 section {
   width: 100%;
+  margin-top: 10rem;
 
   .hotMusic {
     width: 100%;

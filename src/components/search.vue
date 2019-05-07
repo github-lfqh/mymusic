@@ -1,6 +1,7 @@
 <style lang="scss" scoped>
 .search {
   width: 100%;
+  margin-top: 12rem;
   
   > * {
     margin: 0 auto;
@@ -78,7 +79,7 @@
       display: flex;
       align-items: center;
       margin-top: 1.5rem;
-      border-bottom: 0.05rem solid rgba(128, 128, 128, 0.3);
+      border-bottom: 0.05rem solid rgba(128, 128, 128, 0.5);
       padding: 0 1rem;
 
       .icon {
@@ -150,13 +151,16 @@ export default {
   data() {
     return {
       hotSearch: [
-        "复仇者联盟",
+        "感谢你曾经来过",
         "体面",
         "绿色",
         "心如止水",
-        "李易峰",
-        "Earth",
-        "防弹少年团"
+        "像我这样的人",
+        "陷阱",
+        "防弹少年团",
+        "那就这样吧",
+        "回忆总想哭",
+        "天亮以前说再见"
       ],
       historySearch: [],
       show: true,
@@ -168,6 +172,7 @@ export default {
   methods: {
     search(item) {
       let key;
+      this.notFound = false;
       if (item == "###") {
         if (this.$refs.input.value == "") {
           return;

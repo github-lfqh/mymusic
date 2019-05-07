@@ -5,7 +5,7 @@
   &-list {
     width: 100%;
     height: 5rem;
-    border-bottom: 0.1rem solid #ccc;
+    border-bottom: 0.1rem solid rgba(204, 204, 204, 0.5);
     display: flex;
     padding: 0 1rem;
 

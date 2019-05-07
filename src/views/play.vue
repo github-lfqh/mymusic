@@ -22,8 +22,7 @@
     width: 100%;
     height: 15rem;
     z-index: 3;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
 
     .mask {
       width: 15rem;
@@ -85,8 +84,7 @@
     display: flex;
     align-items: center;
     z-index: 3;
-    margin-bottom: 1rem;
-    margin-top: auto;
+    margin: auto 0 1rem 0;
 
     span {
       color: #fff;
