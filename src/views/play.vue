@@ -20,13 +20,15 @@
 
   &-disc {
     width: 100%;
-    height: 15rem;
-    z-index: 3;
-    margin: 1rem 0;
+    height: 30%;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .mask {
-      width: 15rem;
-      height: 15rem;
+      width: 14rem;
+      height: 14rem;
       border-radius: 100%;
       background: url('../assets/img/disc.png') no-repeat;
       background-size: 100% 100%;
@@ -49,7 +51,7 @@
   
   &-songWords {
     width: 100%;
-    height: 20rem;
+    height: 60%;
     overflow: hidden;
     margin: auto 0;
     z-index: 3;
@@ -80,33 +82,24 @@
   
   .progressBar {
     width: 100%;
-    height: 1rem;
+    height: 5%;
     display: flex;
     align-items: center;
     z-index: 3;
-    margin: auto 0 1rem 0;
 
     span {
       color: #fff;
       font-size: 1.3rem;
       font-style: normal;
-      width: 10%;
-    }
-
-    .currentTime {
-      margin: 0 0.5rem 0 auto;
-      text-align: right;
-    }
-
-    .duration {
-      margin: 0 auto 0 0.5rem;
+      width: 7.5%;
+      text-align: center;
     }
 
     input[type = "range"] {
       -webkit-appearance: none;
       outline: none;
       height: 0.5rem;
-      width: 80%;
+      width: 85%;
       border-radius: 1rem; 
       background: -webkit-linear-gradient(#11a4f0, #11a4f0) no-repeat, #c2c2c4;
       background-size: 0% 100%;
@@ -116,6 +109,7 @@
       height: 1rem;
       width: 1rem;
       margin-top: -0.25rem; 
+      margin-left: -0.05rem;
       background: #171717;
       border-radius: 100%;
     }  
@@ -123,6 +117,10 @@
       height: 0.5rem;
       border-radius: 1rem; 
     }
+  }
+  .fill {
+    width: 100%;
+    height: 2.5%;
   }
 }
 </style>
@@ -136,6 +134,7 @@
         <img src="../assets/img/pause.png" class="pause" v-show="btnShow" />
       </div>
     </div>
+    <div class="fill"></div>
     <div class="player-songWords">
       <ul ref="ul" v-show="!noWord">
         <li v-for="(item, index) in oLRC.ms" :key="index">{{ item.c }}</li>
@@ -145,6 +144,7 @@
     <audio ref="audio" @durationchange="durationchange" @timeupdate="timeupdate" @ended="ended" @error="error">
       <source src="" />
     </audio>
+    <div class="fill"></div>
     <div class="progressBar">
       <span class="currentTime">{{ currentTime }}</span>
       <input type="range" ref="range" :style="{ backgroundSize:  progress +' 100%'}" @input="changeProgress">
