@@ -197,12 +197,14 @@ export default {
         this.notFound = false;
       }, () => {
         this.notFound = true;
+        this.$store.commit("setSongs", []);
       });
     },
 
     input() {
       if (this.$refs.input.value == "") {
         this.show = true;
+        this.$store.commit("setSongs", []);
       } else {
         this.show = false;
       }

@@ -61,10 +61,9 @@ export default {
   methods: {
     loadmore() {
       this.showGif = true;
-      let self = this;
       setTimeout(() => {
-        self.$store.commit("setLength", self.$store.state.length + 10);
-        self.showGif = false;
+        this.$store.commit("setLength", this.$store.state.length + 20);
+        this.showGif = false;
       }, 500);
     }
   }

@@ -91,7 +91,7 @@
       color: #fff;
       font-size: 1.3rem;
       font-style: normal;
-      width: 7.5%;
+      width: 10%;
       text-align: center;
     }
 
@@ -99,7 +99,7 @@
       -webkit-appearance: none;
       outline: none;
       height: 0.5rem;
-      width: 85%;
+      width: 80%;
       border-radius: 1rem; 
       background: -webkit-linear-gradient(#11a4f0, #11a4f0) no-repeat, #c2c2c4;
       background-size: 0% 100%;
@@ -122,14 +122,26 @@
     width: 100%;
     height: 2.5%;
   }
+  .back {
+    width: 4rem;
+    height: 4rem;
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    color: #fff;
+    border-radius: 100%;
+    background: url("../assets/img/left.png") no-repeat;
+    background-size: 100% 100%;
+    z-index: 5;
+  }
 }
 </style>
 
 <template>
   <section class="player" :style="{ background: 'url(' + data.pic + ') no-repeat' }">
     <div class="cover"></div>
-    <div class="player-disc flex-center" @click="changeStatus">
-      <div class="mask flex-center" :style="{ transform: 'rotate(' + angle + 'deg)' }">
+    <div class="player-disc flex-center">
+      <div class="mask flex-center" :style="{ transform: 'rotate(' + angle + 'deg)' }" @click="changeStatus">
         <img :src="data.pic" class="pic" />
         <img src="../assets/img/pause.png" class="pause" v-show="btnShow" />
       </div>
@@ -150,6 +162,8 @@
       <input type="range" ref="range" :style="{ backgroundSize:  progress +' 100%'}" @input="changeProgress">
       <span class="duration">{{ duration }}</span>
     </div>
+    <!-- <div  @click="back"></div> -->
+    <router-link to="/home" class="back flex-center"></router-link>
   </section>
 </template>
 
