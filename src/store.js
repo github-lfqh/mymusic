@@ -8,7 +8,8 @@ export default new Vuex.Store({
     length: 20,
     index: 0,
     songs: [],
-    loadingShow: true
+    loadingShow: true,
+    showPlayArea: false
   },
   mutations: {
     setLength(state, length) {
@@ -25,6 +26,10 @@ export default new Vuex.Store({
 
     setLoadingShow(state, flag) {
       state.loadingShow = flag;
+    },
+
+    setShowPlayArea(state, flag) {
+      state.showPlayArea = flag;
     }
   },
   actions: {}

@@ -52,7 +52,7 @@
   <div class="head-nav">
     <header class="flex-center">
       <img src="../assets/img/logo.jpg" />
-      <span>LFQ's music</span>
+      <span>LFQ'S MUSIC</span>
     </header>
     <nav>
       <span :class="{ active: this.$store.state.index == 0 }" @click="recommendClick">推荐</span>

@@ -2,6 +2,7 @@
 section {
   width: 100%;
   margin-top: 10rem;
+  margin-bottom: 70px;
 
   .hotMusic {
     width: 100%;

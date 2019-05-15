@@ -3,6 +3,7 @@
   width: 100%;
   position: relative;
   margin-top: 10rem;
+  margin-bottom: 70px;
 
   .loadmore {
     width: 100%;
@@ -11,13 +12,13 @@
   }
 
   .toTop {
-    width: 5rem;
-    height: 5rem;
+    width: 40px;
+    height: 40px;
     background: #88a0c7;
     color: #fff;
     position: fixed;
-    bottom: 2rem;
-    right: 2rem;
+    bottom: 7rem;
+    right: 1rem;
     border-radius: 100%;
   }
 

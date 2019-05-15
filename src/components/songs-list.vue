@@ -43,7 +43,12 @@
 
 <template>
   <div class="songs">
-    <div class="songs-list" v-for="(item, index) in this.$store.state.songs.slice(0, this.$store.state.length)" :key="index" @mouseenter="hover($event)"  @mouseleave="normal($event)" @click="toPlay(item)">
+    <!-- <div class="songs-list" @mouseenter="hover($event)"  @mouseleave="normal($event)" @click="toPlay('tm')">
+      <span class="rank">{{ 1 }}</span>
+      <span class="ellipsis">体面 - 夏雨菲</span>
+      <span class="time">{{ time }}</span>
+    </div> -->
+    <div class="songs-list" v-for="(item, index) in this.$store.state.songs.slice(0, this.$store.state.length)" :key="index" @mouseenter="hover($event)"  @mouseleave="normal($event)" @click="toPlay(item, index)">
       <span class="rank">{{ index + 1 }}</span>
       <span class="ellipsis">{{ item.singer }} - {{ item.name }}</span>
       <span class="time">{{ item.time | timeFormat }}</span>
@@ -55,7 +60,7 @@
 export default {
   data() {
     return {
-      index: 0
+      time: "04:38"
     };
   },
 
@@ -68,11 +73,12 @@ export default {
       e.target.classList.remove("active");
     },
 
-    toPlay(item) {
+    toPlay(item, index) {
       localStorage.setItem("data", JSON.stringify(item));
-      this.$router.push({
-        path: "/play"
-      });
+      localStorage.setItem("index", index);
+      localStorage.removeItem("currentTime");
+      this.$store.commit("setShowPlayArea", false);
+      this.$nextTick(() => (this.$store.commit("setShowPlayArea", true)));
     }
   },
 

@@ -39,13 +39,6 @@
         height: 10.3rem;
         border-radius: 100%;
       }
-
-      .pause {
-        width: 5rem;
-        height: 5rem;
-        border-radius: 100%;
-        position: absolute;
-      }
     }
   }
   
@@ -118,10 +111,49 @@
       border-radius: 1rem; 
     }
   }
+
+  .control {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 6;
+
+    .pre {
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+      background: url("../assets/img/button.png");
+      background-position: -72px -140px;
+    }
+
+    .pause {
+      width: 60px;
+      height: 60px;
+      border-radius: 100%;
+      background: url("../assets/img/button.png");
+      background-position: 0 0;
+    }
+
+    .play {
+      background-position: 0 -60px;
+    }
+
+    .next {
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+      background: url("../assets/img/button.png");
+      background-position: -140px -140px;
+    }
+  }
+
   .fill {
     width: 100%;
     height: 2.5%;
   }
+
   .back {
     width: 4rem;
     height: 4rem;
@@ -138,12 +170,11 @@
 </style>
 
 <template>
-  <section class="player" :style="{ background: 'url(' + data.pic + ') no-repeat' }">
+  <section class="player" :style="{ background: 'url(' + pic + ') no-repeat' }">
     <div class="cover"></div>
     <div class="player-disc flex-center">
-      <div class="mask flex-center" :style="{ transform: 'rotate(' + angle + 'deg)' }" @click="changeStatus">
-        <img :src="data.pic" class="pic" />
-        <img src="../assets/img/pause.png" class="pause" v-show="btnShow" />
+      <div class="mask flex-center" :style="{ transform: 'rotate(' + angle + 'deg)' }">
+        <img :src="pic" class="pic"/>
       </div>
     </div>
     <div class="fill"></div>
@@ -154,7 +185,7 @@
       <h2 v-show="noWord">歌曲库里暂无这首歌的歌词或者这首歌!</h2> 
     </div>  
     <audio ref="audio" @durationchange="durationchange" @timeupdate="timeupdate" @ended="ended" @error="error">
-      <source src="" />
+      <source :src="src" />
     </audio>
     <div class="fill"></div>
     <div class="progressBar">
@@ -162,12 +193,20 @@
       <input type="range" ref="range" :style="{ backgroundSize:  progress +' 100%'}" @input="changeProgress">
       <span class="duration">{{ duration }}</span>
     </div>
-    <!-- <div  @click="back"></div> -->
+    <div class="control">
+      <span class="pre" @click="pre"></span>
+      <span class="pause" :class="{ play: btnShow }" @click="changeStatus"></span>
+      <span class="next" @click="next"></span>
+    </div>
     <router-link to="/home" class="back flex-center"></router-link>
   </section>
 </template>
 
 <script>
+import music from "../assets/other/夏雨菲 - 体面.mp3";
+import txt from "../assets/other/体面.js";
+import img from "../assets/img/体面.jpg";
+
 export default {
   data() {
     return {
@@ -176,7 +215,7 @@ export default {
       duration: "00:00",
       progress: "0%",
       ismove: false,
-      btnShow: false,
+      btnShow: true,
       data: {},
       angle: 0,
       timer: null,
@@ -190,7 +229,10 @@ export default {
       },
       lineNo: 0,
       played: false,
-      noWord: false
+      noWord: false,
+      pic: img,
+      src: music,
+      index: 0
     };
   },
 
@@ -201,17 +243,17 @@ export default {
 
     timeupdate() {
       if (this.ismove) {
-        this.$refs.audio.currentTime = this.$refs.range.value / 100 * this.$refs.audio.duration;
+        this.$refs.audio.currentTime = this.$refs.range.value / 100 * this.$refs.audio.duration || 0;
         for (let i in this.oLRC.ms) {
-          if (this.oLRC.ms[i].t > this.$refs.audio.currentTime) {
+          if (this.oLRC.ms[i].t > ( this.$refs.audio.currentTime || 0)) {
             this.lineNo = i - 1;
             break;
           }
         }
       } else {
-        this.$refs.range.value = this.$refs.audio.currentTime / this.$refs.audio.duration * 100;
+        this.$refs.range.value = (this.$refs.audio.currentTime || 0) / this.$refs.audio.duration * 100;
       }
-      this.currentTime = this.timeFormat(this.$refs.audio.currentTime);
+      this.currentTime = this.timeFormat(this.$refs.audio.currentTime || 0);
       this.progress = this.$refs.range.value + "%";
       this.ismove = false;
       if (this.lineNo >= this.oLRC.ms.length)
@@ -294,7 +336,7 @@ export default {
     autoRatate() {
       this.timer = setInterval(() => {
         this.angle += 10;
-      }, 500);
+      }, 1000);
     },
 
     heightLight() {
@@ -320,19 +362,66 @@ export default {
       this.progress = "0%";
       this.$refs.range.value = 0;
       this.noWord = true;
-    }
+    },
+
+    pre() {
+      if(this.index > 0) {
+        let index = this.index - 1;
+        let item = this.$store.state.songs[index];
+        localStorage.setItem("data", JSON.stringify(item));
+        localStorage.setItem("index", index);
+        this.angle = 0;
+        localStorage.setItem("currentTime", 0);
+        this.init();
+      }
+    },
+
+    next() {
+      if(this.index < this.$store.state.songs.length - 1) {
+        let index = this.index + 1;
+        let item = this.$store.state.songs[index];
+        localStorage.setItem("data", JSON.stringify(item));
+        localStorage.setItem("index", index);
+        this.angle = 0;
+        localStorage.setItem("currentTime", 0);
+        this.init();
+      }
+    },
+
+    init() {
+      this.data = JSON.parse(localStorage.getItem("data"));
+      this.index = parseInt(localStorage.getItem("index"));
+      let lrc;
+      if(this.data == "tm") {
+        this.src = music;
+        lrc = txt.t;
+        this.parseLrc(lrc);
+      } else {
+        this.$refs.audio.src = this.data.url;
+        lrc = this.data.lrc;
+        this.$axios.get(lrc).then(response => {
+          this.parseLrc(response);
+        });
+        this.pic = this.data.pic;
+      }
+      this.$refs.audio.autoplay = true;
+      this.$refs.audio.load();
+      this.autoRatate();
+      this.$refs.audio.currentTime = parseInt(localStorage.getItem("currentTime"));
+      this.currentTime = this.timeFormat(this.$refs.audio.currentTime || 0);
+      this.$refs.range.value = (this.$refs.audio.currentTime || 0) / this.$refs.audio.duration * 100;
+      this.progress = this.$refs.range.value + "%";
+    },
   },
 
   mounted() {
-    this.data = JSON.parse(localStorage.getItem("data"));
-    this.$refs.audio.src = this.data.url;
-    this.$refs.audio.autoplay = true;
-    this.$refs.audio.load();
-    let lrc = this.data.lrc;
-    this.$axios.get(lrc).then(response => {
-      this.parseLrc(response);
-    });
-    this.autoRatate();
+    this.init();
+  },
+  
+  beforeDestroy() {
+    let currentTime = this.$refs.audio.currentTime || 0;
+    localStorage.setItem("currentTime", currentTime);
+    this.$store.commit("setShowPlayArea", true);
   }
 };
 </script>
